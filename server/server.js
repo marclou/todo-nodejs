@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { ObjectId } = require('mongodb');
 
 const { mongoose } = require('./db/mongoose');
 const { Todo } = require('./models/todo');
@@ -31,6 +32,24 @@ app.get('/todos', (req, res) => {
      }).catch((err) => {
           res.status(400).send(err);
      });
+});
+
+app.get('/todos/:id', (req, res) => {
+     const id = req.params.id;
+
+     if (!ObjectId.isValid(id)) {
+          return res.status(404).send({error: 'Invalid ObjectId'});
+     }
+
+     User.findById(id).then((user) => {
+          if (user) {
+               return res.status(200).send({user});
+          }
+          res.status(404).send({error: 'User doesn\'t exist'});
+     }).catch((e) => {
+          res.status(400).send({e});
+     });
+
 });
 
 app.listen('3000', () => {
