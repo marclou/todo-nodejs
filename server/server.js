@@ -23,6 +23,16 @@ app.post('/todos', (req, res) => {
      })
 });
 
+app.get('/todos', (req, res) => {
+     User.find().then((users) => {
+          res.send({
+               todos: users
+          });
+     }).catch((err) => {
+          res.status(400).send(err);
+     });
+});
+
 app.listen('3000', () => {
      console.log('Listen on port 3000 \n');
 })
