@@ -1,5 +1,6 @@
 const expect = require('expect');
 const request = require('supertest');
+const { ObjectId } = require('mongodb');
 
 const {
 	app
@@ -9,9 +10,11 @@ const {
 } = require('./../models/user');
 
 const users = [{
+	_id: new ObjectId(),
 	username: 'Marc',
 	email: 'marc@gmail.com'
 }, {
+	_id: new ObjectId(),
 	username: 'Wonji',
 	email: 'wonjj@gmail.com'
 }];
@@ -89,4 +92,26 @@ describe('GET /todos', () => {
           })
           .end(done);
      });
+});
+
+describe('GET /todos/:id', () => {
+	it('Should return todo doc', (done) => {
+		request(app)
+		.get(`/todos/${users[0]._id.toHexString()}`)
+		.expect(200)
+		.expect((res) => {
+			expect(res.body.user.username).toBe(users[0].username);
+		})
+		.end(done);
+
+	});
+
+	it('Should return 404 if todo not found', (done) => {
+		const randomId = new ObjectId();
+
+		request(app)
+		.get(`/todos/${randomId.toHexString()}`)
+		.expect(404)
+		.end(done);
+	});
 });
