@@ -7,7 +7,7 @@ const {
 } = require('./../server.js');
 const {
 	User
-} = require('./../models/user');
+} = require('./../models/users');
 
 const users = [{
 	_id: new ObjectId(),
