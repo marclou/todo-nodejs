@@ -27,7 +27,7 @@ app.post('/todos', (req, res) => {
 app.get('/todos', (req, res) => {
      User.find().then((users) => {
           res.send({
-               todos: users
+               users: users
           });
      }).catch((err) => {
           res.status(400).send(err);
@@ -48,6 +48,24 @@ app.get('/todos/:id', (req, res) => {
           res.status(404).send({error: 'User doesn\'t exist'});
      }).catch((e) => {
           res.status(400).send({e});
+     });
+
+});
+
+app.delete('/todos/:id', (req, res) => {
+     const userToDelete = req.params.id;
+
+     if (!ObjectId.isValid(userToDelete)) {
+          return res.status(404).send({ error : 'Invalid user ID'});
+     }
+
+     User.findByIdAndRemove(userToDelete).then((user) => {
+          if (user) {
+               return res.status(200).send({ user : user });
+          }
+          res.status(404).send({error: 'User doesn\'t exist'});
+     }).catch((err) => {
+          res.status(400).send({ error : err });
      });
 
 });
