@@ -10,6 +10,10 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+     res.send('<h1> Hey there ;) </h1>');
+});
+
 app.post('/todos', (req, res) => {
      const { username, email } = req.body;
      const user = new User({
