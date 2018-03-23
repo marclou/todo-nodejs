@@ -22,12 +22,25 @@ const users = [{
 }];
 
 beforeEach((done) => {
-	User
-		.remove({})
+	User.remove({})
 		.then(() => {
-			User.insertMany(users);
-		})
-		.then(() => done());
+			User.insertMany(users)
+				.then(() => {
+					done();
+				});
+		});
+});
+
+describe('GET /todos', () => {
+	it('should get all todos frm mongoDB', (done) => {
+		request(app)
+			.get('/todos')
+			.expect(200)
+			.expect((res) => {
+				expect(res.body.users.length).toBe(2);
+			})
+			.end(done);
+	});
 });
 
 describe('POST /todos', () => {
@@ -81,18 +94,6 @@ describe('POST /todos', () => {
 						done(err);
 					});
 			});
-	});
-});
-
-describe('GET /todos', () => {
-	it('should get all todos frm mongoDB', (done) => {
-		request(app)
-			.get('/todos')
-			.expect(200)
-			.expect((res) => {
-				expect(res.body.users.length).toBe(2);
-			})
-			.end(done);
 	});
 });
 
