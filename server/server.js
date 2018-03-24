@@ -77,6 +77,30 @@ app.delete('/todos/:id', (req, res) => {
 
 });
 
+app.post('/user', (req, res) => {
+    const userToRegister = _.pick(req.body, ['username', 'email', 'password', 'age', 'token']);
+    const user = new User(userToRegister);
+
+    user.save().then((user) => {
+        res.status(200).send({ user: user});
+    }).catch((e) => {
+        res.status(400).send({ error: e});
+    });
+});
+
+app.get('/user/:name', (req, res) => {
+    const userName = req.params.name;
+
+    User.findOne({ username: userName }).then((user) => {
+        if (user) {
+            return res.status(200).send({ user : user });
+        }
+        res.status(404).send({ error: 'User not found'});
+    }).catch((e) => {
+        res.status(400).send({ error : e });
+    });
+});
+
 app.listen(port, () => {
      console.log('Listen on port '+port);
 })
