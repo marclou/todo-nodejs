@@ -18,7 +18,8 @@ const users = [{
 	_id: userTwoId,
 	username: 'Wonji',
 	email: 'wonjj@gmail.com',
-	password: '123123'
+	password: '123123',
+	token: []
 }];
 
 const populateUsers = (done) => {

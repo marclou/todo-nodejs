@@ -146,3 +146,23 @@ describe('DELETE /todos/:id', () => {
 			.end(done);
 	});
 });
+
+describe('GET /user/me', () => {
+	it('should return user if authenticated', (done) => {
+		request(app)
+			.get('/user/me')
+			.set('x-auth', users[0].tokens[0].token)
+			.expect(200)
+			.expect((res) => {
+				expect(res.body.user._id).toBe(users[0]._id.toString());
+			})
+			.end(done);
+	});
+
+	it('should 401 if not authenticated', (done) => {
+		request(app)
+			.get('/user/me')
+			.expect(401)
+			.end(done);
+	});
+});
