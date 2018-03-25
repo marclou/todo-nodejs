@@ -7,6 +7,7 @@ const { ObjectId } = require('mongodb');
 
 const { mongoose } = require('./db/mongoose');
 const  { User } = require('./models/users');
+const { authenticate } = require('./middleware/authenticate');
 
 const app = express();
 const port = process.env.PORT;
@@ -98,17 +99,8 @@ app.post('/user', (req, res) => {
 		});
 });
 
-app.get('/user/:name', (req, res) => {
-    const userName = req.params.name;
-
-    User.findOne({ username: userName }).then((user) => {
-        if (user) {
-            return res.status(200).send({ user : user });
-        }
-        res.status(404).send({ error: 'User not found'});
-    }).catch((e) => {
-        res.status(400).send({ error : e });
-    });
+app.get('/user/me', authenticate, (req, res) => {
+    res.send(req.user);
 });
 
 app.listen(port, () => {
