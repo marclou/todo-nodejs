@@ -10,26 +10,10 @@ const {
 const {
 	User
 } = require('./../models/users');
+const { users, populateUsers } = require('./seeds/seed');
 
-const users = [{
-	_id: new ObjectId(),
-	username: 'Marc',
-	email: 'marc@gmail.com'
-}, {
-	_id: new ObjectId(),
-	username: 'Wonji',
-	email: 'wonjj@gmail.com'
-}];
 
-beforeEach((done) => {
-	User.remove({})
-		.then(() => {
-			User.insertMany(users)
-				.then(() => {
-					done();
-				});
-		});
-});
+beforeEach(populateUsers);
 
 describe('GET /todos', () => {
 	it('should get all todos frm mongoDB', (done) => {
@@ -48,7 +32,8 @@ describe('POST /todos', () => {
 
 		const user = {
 			username: 'Wonji',
-			email: 'wonji@gmail'
+			email: 'test@gmail.fr',
+			password: '123123Z'
 		};
 
 		request(app)

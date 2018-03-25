@@ -1,11 +1,11 @@
 {
   "name": "todo-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "A App for adding and updating your todos !",
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
-    "test": "export NODE_ENV=test && mocha server/**/*.test.js",
+    "test": "export NODE_ENV=test && mocha --timeout 5000 server/**/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
   },
   "engines": {
@@ -21,12 +21,12 @@
     "jsonwebtoken": "^8.2.0",
     "lodash": "^4.17.5",
     "mongodb": "^3.0.4",
-    "mongoose": "^5.0.0",
+    "mongoose": "^5.0.11",
     "validator": "^9.4.1"
   },
   "devDependencies": {
     "expect": "^1.20.2",
-    "mocha": "^3.0.2",
+    "mocha": "^3.5.3",
     "nodemon": "^1.17.2",
     "supertest": "^3.0.0"
   }

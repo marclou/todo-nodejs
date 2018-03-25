@@ -19,10 +19,11 @@ app.get('/', (req, res) => {
 });
 
 app.post('/todos', (req, res) => {
-     const { username, email } = req.body;
+     const { username, email, password } = req.body;
      const user = new User({
           username: username,
-          email: email
+          email: email,
+          password: password
      });
 
      user.save().then((doc) => {
@@ -105,6 +106,7 @@ app.get('/user/me', authenticate, (req, res) => {
 
 app.listen(port, () => {
      console.log('Listen on port '+port);
+     console.log('Environement : '+process.env.MONGODB_URI);
 })
 
 module.exports = {
