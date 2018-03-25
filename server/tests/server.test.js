@@ -166,3 +166,39 @@ describe('GET /user/me', () => {
 			.end(done);
 	});
 });
+
+describe('POST /user', () => {
+	it('Should create a user', (done) => {
+		const user = {
+			username: "wonji",
+			email: "wonji@marc.com",
+			password: "123123"
+		};
+		request(app)
+			.post('/user')
+			.send(user)
+			.expect(200)
+			.expect((res) => {
+				expect(res.headers['x-auth']).toExist();
+			})
+			.end((err, res) => {
+				if (err) {
+					return done(err);
+				}
+				User.findOne({ email: user.email }).then((user) => {
+					expect(user).toExist();
+					done();
+				}).catch((e) => {
+					done(e);
+				});
+			});
+	});
+
+	it('Should return validation errors if request invalid', (done) => {
+		done();
+	});
+
+	it('Should not create user if email is in use', (done) => {
+		done();
+	});
+});
