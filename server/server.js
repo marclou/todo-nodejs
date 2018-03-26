@@ -104,6 +104,23 @@ app.get('/user/me', authenticate, (req, res) => {
     res.send({ user: req.user });
 });
 
+app.post('/users/login', (req, res) => {
+    const { email, password } = _.pick(req.body, ['email', 'password']);
+
+    User.findByCreditentials(email, password)
+        .then((user) => {
+            return user.generateAuthToken().then((token) => {
+                res
+                    .status(200)
+                    .header('x-auth', token)
+                    .send(user.toJSON());
+            });
+        })
+        .catch((e) => {
+            res.status(400).send({error: e});
+        });
+});
+
 app.listen(port, () => {
      console.log('Listen on port '+port);
      console.log('Environement : '+process.env.MONGODB_URI);

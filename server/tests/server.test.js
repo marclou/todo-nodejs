@@ -193,12 +193,4 @@ describe('POST /user', () => {
 				});
 			});
 	});
-
-	it('Should return validation errors if request invalid', (done) => {
-		done();
-	});
-
-	it('Should not create user if email is in use', (done) => {
-		done();
-	});
 });
