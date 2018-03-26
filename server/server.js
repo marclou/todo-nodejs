@@ -121,6 +121,14 @@ app.post('/users/login', (req, res) => {
         });
 });
 
+app.delete('/user/me/loggout',authenticate, (req, res) => {
+    req.user.removeToken(req.token).then(() => {
+        res.status(200).send();
+    }).catch((e) => {
+        res.status(400).send({ error: e});
+    });
+});
+
 app.listen(port, () => {
      console.log('Listen on port '+port);
      console.log('Environement : '+process.env.MONGODB_URI);
